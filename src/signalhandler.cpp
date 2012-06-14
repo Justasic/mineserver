@@ -25,11 +25,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-<<<<<<< HEAD
 #include "signalhandler.h"
-=======
-#include "Signal.h"
->>>>>>> 5397f97... Misc. work, included signalhandler and blockname which fixes some compile errors
 #include "mineserver.h"
 #include "constants.h"
 #include "logger.h"

@@ -25,7 +25,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "sys/stat.h"
+#include <sys/stat.h>
 
 #include "mineserver.h"
 #include "logger.h"

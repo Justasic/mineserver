@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <utility>
 #include <cstdarg>
+#include "extern.h"
 
 template <typename T> struct va_widened
 {

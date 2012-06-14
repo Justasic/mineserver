@@ -26,10 +26,12 @@
 */
 
 #ifdef WIN32
-#include <cstdlib>
-#define NOMINMAX
-#include <winsock2.h>
+# include <cstdlib>
+# define NOMINMAX
+# include <winsock2.h>
 typedef int socklen_t;
+#else
+# include <fcntl.h>
 #endif
 
 #include <cerrno>

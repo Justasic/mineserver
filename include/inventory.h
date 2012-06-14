@@ -32,6 +32,7 @@
 #include <vector>
 
 #include "tr1.h"
+#include "extern.h"
 #include TR1INCLUDE(memory)
 
 class User;
