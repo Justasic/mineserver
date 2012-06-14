@@ -29,29 +29,30 @@
 #define _PLUGIN_API_H
 
 #ifdef __cplusplus
-#ifndef MINESERVER_C_API
-#define USE_HOOKS
-#endif
+# ifndef MINESERVER_C_API
+#  define USE_HOOKS
+# endif
 #else
-#include <stdbool.h>
+# include <stdbool.h>
 #endif
 
 #include <stdint.h>
 
 #ifdef USE_HOOKS
-#include "hook.h"
+# include "hook.h"
 #endif
 
 #include "logtype.h"
 #include "configure.h"
 
 #ifdef WIN32
-#define PLUGIN_API_EXPORT extern "C" __declspec(dllexport)
-#define CALLCONVENSION __cdecl
+# define PLUGIN_API_EXPORT extern "C" __declspec(dllexport)
+# define CALLCONVENSION __cdecl
 #else
-#define PLUGIN_API_EXPORT extern "C"
-#define CALLCONVENSION
+# define PLUGIN_API_EXPORT extern "C"
+# define CALLCONVENSION
 #endif
+
 #define CALLCONVERSION CALLCONVENSION
 #include "constants_num.h"
 

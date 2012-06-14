@@ -25,7 +25,11 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+<<<<<<< HEAD
 #include "signalhandler.h"
+=======
+#include "Signal.h"
+>>>>>>> 5397f97... Misc. work, included signalhandler and blockname which fixes some compile errors
 #include "mineserver.h"
 #include "constants.h"
 #include "logger.h"
@@ -102,7 +106,7 @@ void HandleSegfault()
   std::cout << slog.str(); //Write to terminal.
   std::cout.flush(); //Clear output
   #endif // HAVE_BACKTRACE
-  
+
   ServerInstance->stop();
   exit(SIGSEGV); // Exit so we're not still running
 }
@@ -112,7 +116,6 @@ void SignalHandler(int sig)
 {
   switch(sig)
   {
-
 #ifdef HAVE_BACKTRACE
     case SIGSEGV:
       // Justasic: You can stop SIGSEGV's but I HIGHLY recommend against it unless you have good reason to.

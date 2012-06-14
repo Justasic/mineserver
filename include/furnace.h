@@ -51,8 +51,6 @@ enum
 
 class Furnace
 {
-
-
 public:
   Furnace(furnaceDataPtr data);
 

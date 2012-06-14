@@ -41,21 +41,6 @@ bool BlockFalling::affectedBlock(int block) const
   return false;
 }
 
-std::string printfify(const char *fmt, ...)
-{
-  if(fmt)
-  {
-    va_list args;
-    char buf[4096];
-    va_start(args, fmt);
-    vsnprintf(buf, sizeof(buf), fmt, args);
-    va_end(args);
-    return buf;
-  }
-  else
-    return fmt;
-}
-
 void BlockFalling::onNeighbourBroken(User* user, int16_t, int32_t x, int8_t y, int32_t z, int map, int8_t direction)
 {
   this->onNeighbourMove(user, 0, x, y, z, direction, map);

@@ -345,8 +345,6 @@ int PacketHandler::login_request(User* user)
     return PACKET_OK;
   }
 
-
-
   // Check if we're to do user validation
   if (ServerInstance->config()->bData("system.user_validation") == true)
   {

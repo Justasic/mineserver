@@ -36,7 +36,7 @@
 
 class User;
 
-class Item
+class CoreExport Item
 {
 public:
   void setType(int16_t type);
@@ -104,7 +104,7 @@ enum { INVENTORYTYPE_CHEST = 0, INVENTORYTYPE_WORKBENCH, INVENTORYTYPE_FURNACE }
 
 class User;
 
-class Inventory
+class CoreExport Inventory
 {
 public:
 

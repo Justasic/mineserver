@@ -47,7 +47,7 @@ typedef void (*voidF)(); // voidF is a "void"-like function pointer
 typedef std::pair<void*, voidF> callbackType;
 
 
-class Hook
+class CoreExport Hook
 {
   /// Define this to whatever suits best. std::list is good for maintaining the order.
   typedef std::list<callbackType> CallbackStore;

@@ -42,10 +42,10 @@
 #define _WINSOCKAPI_
 
 #ifdef WIN32
-#define NOMINMAX
-#include <windows.h>
+# define NOMINMAX
+# include <windows.h>
 #else
-#include <dlfcn.h>
+# include <dlfcn.h>
 #endif
 
 
@@ -60,10 +60,10 @@
 //
 
 #ifdef WIN32
-#define LIBRARY_HANDLE HINSTANCE
-#define LIBRARY_LOAD(x) LoadLibrary(x)
-#define LIBRARY_SELF() GetModuleHandle(NULL)
-#define LIBRARY_SYMBOL(x, y) GetProcAddress(x, y)
+# define LIBRARY_HANDLE HINSTANCE
+# define LIBRARY_LOAD(x) LoadLibrary(x)
+# define LIBRARY_SELF() GetModuleHandle(NULL)
+# define LIBRARY_SYMBOL(x, y) GetProcAddress(x, y)
 static char *LIBRARY_ERROR(void)
 {
   char errbuf[513];
@@ -74,16 +74,16 @@ static char *LIBRARY_ERROR(void)
   SetLastError(0);
   return errbuf;
 }
-#define LIBRARY_CLOSE(x) FreeLibrary(x)
-#define LIBRARY_EXTENSION ".dll"
+# define LIBRARY_CLOSE(x) FreeLibrary(x)
+# define LIBRARY_EXTENSION ".dll"
 #else
-#define LIBRARY_HANDLE void*
-#define LIBRARY_LOAD(x) dlopen(x, RTLD_LAZY)
-#define LIBRARY_SELF() dlopen(NULL, RTLD_LAZY)
-#define LIBRARY_SYMBOL(x, y) dlsym(x, y)
-#define LIBRARY_ERROR() dlerror()
-#define LIBRARY_CLOSE(x) dlclose(x)
-#define LIBRARY_EXTENSION ".so"
+# define LIBRARY_HANDLE void*
+# define LIBRARY_LOAD(x) dlopen(x, RTLD_LAZY)
+# define LIBRARY_SELF() dlopen(NULL, RTLD_LAZY)
+# define LIBRARY_SYMBOL(x, y) dlsym(x, y)
+# define LIBRARY_ERROR() dlerror()
+# define LIBRARY_CLOSE(x) dlclose(x)
+# define LIBRARY_EXTENSION ".so"
 #endif
 
 #include "blocks/basic.h"
@@ -113,14 +113,14 @@ public:
   ~Plugin();
 
   // Hook registry stuff
-  inline bool  hasHook(const HookMap::key_type& name) const { return m_hooks.count(name) > 0; }
+  inline bool hasHook(const HookMap::key_type& name) const { return m_hooks.count(name) > 0; }
   inline HookMap::mapped_type getHook(const HookMap::key_type& name) const
   {
     HookMap::const_iterator hook = m_hooks.find(name);
     return hook == m_hooks.end() ? NULL : hook->second;
   }
-  inline void  setHook(const HookMap::key_type& name, HookMap::mapped_type hook) { m_hooks[name] = hook; }
-  inline void  remHook(const HookMap::key_type& name) { m_hooks.erase(name); /* erases 0 or 1 elements */ }
+  inline void setHook(const HookMap::key_type& name, HookMap::mapped_type hook) { m_hooks[name] = hook; }
+  inline void remHook(const HookMap::key_type& name) { m_hooks.erase(name); /* erases 0 or 1 elements */ }
 
   // Load/Unload plugins
   bool loadPlugin(const std::string& name, const std::string& path = "", std::string alias = "");
@@ -133,24 +133,22 @@ public:
     VersionMap::const_iterator pluginVersion = m_pluginVersions.find(name);
     return pluginVersion == m_pluginVersions.end() ? 0 : pluginVersion->second;
   }
-  inline void  setPluginVersion(const VersionMap::key_type& name, VersionMap::mapped_type version) { m_pluginVersions[name] = version; }
-  inline void  remPluginVersion(const VersionMap::key_type& name) { m_pluginVersions.erase(name); }
+  inline void setPluginVersion(const VersionMap::key_type& name, VersionMap::mapped_type version) { m_pluginVersions[name] = version; }
+  inline void remPluginVersion(const VersionMap::key_type& name) { m_pluginVersions.erase(name); }
 
   // Pointer registry stuff
-  inline bool  hasPointer(const PointerMap::key_type& name) const { return m_pointers.find(name) != m_pointers.end(); }
+  inline bool hasPointer(const PointerMap::key_type& name) const { return m_pointers.find(name) != m_pointers.end(); }
   inline void* getPointer(const PointerMap::key_type& name) const
   {
     PointerMap::const_iterator pointer = m_pointers.find(name);
     return pointer == m_pointers.end() ? NULL : pointer->second;
   }
-  inline void  setPointer(const PointerMap::key_type& name, PointerMap::mapped_type pointer) {m_pointers[name] = pointer; }
-  inline void  remPointer(const PointerMap::key_type& name) { m_pointers.erase(name); }
+  inline void setPointer(const PointerMap::key_type& name, PointerMap::mapped_type pointer) {m_pointers[name] = pointer; }
+  inline void remPointer(const PointerMap::key_type& name) { m_pointers.erase(name); }
 
-  void init();
+  inline const BlockCBs &getBlockCB() const { return m_block_CBs; }
 
-  inline const BlockCBs & getBlockCB() const { return m_block_CBs; }
-
-  inline const ItemCBs  & getItemCB()  const { return m_item_CBs; }
+  inline const ItemCBs &getItemCB()  const { return m_item_CBs; }
 
 private:
   HookMap      m_hooks;

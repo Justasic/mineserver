@@ -36,7 +36,7 @@
 #include "mineserver.h"
 
 /* This file introduces a basic abstraction over raw protocol packets format.
- * This is needed for varuios protocol updates - we need to change the raw format
+ * This is needed for various protocol updates - we need to change the raw format
  * only in one place. 
  * The implementation is totally in header to be inlined and optimized out.
  *
@@ -230,7 +230,7 @@ class Protocol
     static Packet updateHealth(int health, int food=20)
     {
       Packet ret;
-      ret << (int8_t)PACKET_UPDATE_HEALTH << (int16_t)health << (int16_t)food << (float)5.0;
+      ret << (int8_t)PACKET_UPDATE_HEALTH << (int16_t)health << (int16_t)food << 5.0f;
       return ret;
     }
 

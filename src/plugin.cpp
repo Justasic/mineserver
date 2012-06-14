@@ -29,9 +29,9 @@
 
 #include "mineserver.h"
 #ifdef WIN32
-#include <windows.h>
+# include <windows.h>
 #else
-#include <dlfcn.h>
+# include <dlfcn.h>
 #endif
 
 #include "constants.h"
@@ -106,22 +106,6 @@ Plugin::Plugin()
   setHook("gotAttacked", new Hook2<bool, const char*, int32_t>);
   setHook("interact", new Hook2<bool, const char*, int32_t>);
 
-  init();
-}
-
-// Remove existing hooks
-Plugin::~Plugin()
-{
-  for (HookMap::iterator it = m_hooks.begin(); it != m_hooks.end(); ++it)
-  {
-    delete it->second;
-  }
-
-  m_hooks.clear();
-}
-
-void Plugin::init()
-{
   // Create Block objects
   m_block_CBs.push_back(BlockBasicPtr(new BlockRedstone));
   m_block_CBs.push_back(BlockBasicPtr(new BlockWood));
@@ -151,10 +135,23 @@ void Plugin::init()
   m_block_CBs.push_back(BlockBasicPtr(new BlockDefault));
   m_block_CBs.push_back(BlockBasicPtr(new BlockTNT));
 
+  // Items
   m_item_CBs.push_back(ItemBasicPtr(new ItemFood));
   m_item_CBs.push_back(ItemBasicPtr(new ItemProjectile));
 }
 
+// Remove existing hooks
+Plugin::~Plugin()
+{
+  for (HookMap::iterator it = m_hooks.begin(), it_end = m_hooks.end(); it != it_end;)
+  {
+    Hook *h = it->second;
+    ++it;
+    delete h;
+  }
+
+  m_hooks.clear();
+}
 
 typedef void (*pfms)(mineserver_pointer_struct*);
 typedef void (*pfv)();

@@ -56,5 +56,6 @@ class Mobs;
 class Mob;
 
 E Mineserver *ServerInstance;
+E std::string printfify(const char*, ...);
 
 #endif

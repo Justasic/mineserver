@@ -218,6 +218,21 @@ bool makeDirectory(const std::string& path)
 #endif
 }
 
+std::string printfify(const char *fmt, ...)
+{
+  if(fmt)
+  {
+    va_list args;
+    char buf[4096];
+    va_start(args, fmt);
+    vsnprintf(buf, sizeof(buf), fmt, args);
+    va_end(args);
+    return buf;
+  }
+  else
+    return fmt;
+}
+
 std::string canonicalizePath(const std::string& pathname)
 {
   // We assume that pathname is already a path name, with no file component!

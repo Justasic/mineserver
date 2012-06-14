@@ -38,7 +38,7 @@ class NBT_Value;
 
 typedef std::tr1::shared_ptr<Furnace> FurnacePtr;
 
-class FurnaceManager
+class CoreExport FurnaceManager
 {
 public:
   void update();
