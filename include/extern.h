@@ -32,6 +32,7 @@
 #define EXTERN_H
 
 #include "SystemExceptions.h"
+// Windows crap for plugins
 #ifndef _WIN32
 # define CoreExport
 #else
@@ -57,5 +58,6 @@ class Mob;
 
 E Mineserver *ServerInstance;
 E std::string printfify(const char*, ...);
+E int setnonblock(int fd);
 
 #endif

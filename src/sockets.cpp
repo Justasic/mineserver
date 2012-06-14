@@ -50,8 +50,21 @@ typedef int socklen_t;
 #include "mineserver.h"
 #include "packets.h"
 
-
-extern int setnonblock(int fd);
+int setnonblock(int fd)
+{
+  #ifdef WIN32
+  u_long iMode = 1;
+  ioctlsocket(fd, FIONBIO, &iMode);
+  #else
+  int flags;
+  
+  flags  = fcntl(fd, F_GETFL);
+  flags |= O_NONBLOCK;
+  fcntl(fd, F_SETFL, flags);
+  #endif
+  
+  return 1;
+}
 
 #ifndef WIN32
 #define SOCKET_ERROR -1

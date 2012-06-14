@@ -72,31 +72,15 @@
 static bool quit = false;
 #endif
 
-int setnonblock(int fd)
-{
-#ifdef WIN32
-  u_long iMode = 1;
-  ioctlsocket(fd, FIONBIO, &iMode);
-#else
-  int flags;
-
-  flags  = fcntl(fd, F_GETFL);
-  flags |= O_NONBLOCK;
-  fcntl(fd, F_SETFL, flags);
-#endif
-
-  return 1;
-}
-
+// Global pointer to the Mineserver instance, this handles the whole program
 Mineserver *ServerInstance = NULL;
 
 std::string removeChar(std::string str, const char* c)
 {
   const size_t loc = str.find(c);
   if (loc != std::string::npos)
-  {
     return str.replace(loc, 1, "");
-  }
+
   return str;
 }
 
@@ -136,7 +120,6 @@ int main(int argc, char* argv[])
   
   return ret ? EXIT_SUCCESS : EXIT_FAILURE;
 }
-
 
 Mineserver::Mineserver(int args, char **argarray)
   :  m_socketlisten  (0),
@@ -373,26 +356,25 @@ event_base* Mineserver::getEventBase()
 void Mineserver::saveAll()
 {
   for (std::vector<Map*>::size_type i = 0; i < m_map.size(); i++)
-  {
     m_map[i]->saveWholeMap();
-  }
+  
   saveAllPlayers();
 }
 
 void Mineserver::saveAllPlayers()
 {
   for (std::set<User*>::const_iterator it = users().begin(); it != users().end(); ++it)
-  {
-    if ((*it)->logged) (*it)->saveData();
-  }
+    if ((*it)->logged)
+      (*it)->saveData();
 }
 
 size_t Mineserver::getLoggedUsersCount()
 {
   size_t count = 0;
-  for(std::set<User*>::const_iterator it = users().begin(); it != users().end(); ++it) {
-    if((*it)->logged) count++;
-  }
+  for(std::set<User*>::const_iterator it = users().begin(); it != users().end(); ++it)
+    if((*it)->logged)
+      count++;
+
   return count;
 }
 
@@ -581,16 +563,12 @@ bool Mineserver::run()
     {
       const BlockBasicPtr blockcb = plugin()->getBlockCB()[i];
       if (blockcb != NULL)
-      {
         blockcb->timer200();
-      }
     }
 
     //Update physics every 200ms
     for (std::vector<Map*>::size_type i = 0 ; i < m_map.size(); i++)
-    {
       physics(i)->update();
-    }
 
     //Every 10 seconds..
     timeNow = time(0);
@@ -603,9 +581,7 @@ bool Mineserver::run()
       {
         //Save
         for (std::vector<Map*>::size_type i = 0; i < m_map.size(); i++)
-        {
           m_map[i]->saveWholeMap();
-        }
 
         m_lastSave = timeNow;
       }
@@ -623,9 +599,7 @@ bool Mineserver::run()
 
       //Check for tree generation from saplings
       for (size_t i = 0; i < m_map.size(); ++i)
-      {
         m_map[i]->checkGenTrees();
-      }
 
       // TODO: Run garbage collection for chunk storage dealie?
 
@@ -655,9 +629,8 @@ bool Mineserver::run()
         else
         {
           if (m_damage_enabled)
-          {
             u->checkEnvironmentDamage();
-          }
+
           u->pushMap();
           u->popMap();
         }
@@ -668,9 +641,7 @@ bool Mineserver::run()
       {
         m_map[i]->mapTime += 20;
         if (m_map[i]->mapTime >= 24000)
-        {
           m_map[i]->mapTime = 0;
-        }
       }
 
       for (std::set<User*>::const_iterator it = users().begin(); it != users().end(); ++it)
@@ -694,16 +665,10 @@ bool Mineserver::run()
     {
       (*it)->isUnderwater();
       if ((*it)->pos.y < 0)
-      {
         (*it)->sethealth((*it)->health - 5);
-      }
     }
   }
-  #ifdef WIN32
-  closesocket(m_socketlisten);
-  #else
   close(m_socketlisten);
-  #endif
 
   saveAll();
 
@@ -721,9 +686,8 @@ bool Mineserver::stop()
 Map* Mineserver::map(size_t n) const
 {
   if (n < m_map.size())
-  {
     return m_map[n];
-  }
+
   LOG2(WARNING, "Nonexistent map requested. Map 0 passed");
   return m_map[0];
 }

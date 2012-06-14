@@ -41,6 +41,10 @@
 #include "constants_num.h"
 #include "extern.h"
 
+#ifdef _WIN32
+# define close closesocket
+#endif
+
 //
 // Drops from blocks
 //
